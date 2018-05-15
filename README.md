@@ -17,8 +17,11 @@ $c = new connection('localhost','username','password','database');
  * Table definition
  */
 $t = new table($c,'table_name');
+//or
+$t = $c->table('table_name');
+
 $t->field('id',field::INT)->autoIncrement(true)->notNull(true);
-$t->field('name',field::STRING);
+$t->field('name',field::STRING)->length(255);
 $t->field('email',field::STRING);
 $t->field('created',field::DATE);
 

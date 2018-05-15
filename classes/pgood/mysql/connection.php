@@ -56,4 +56,7 @@ class connection{
 			unset(self::$arConnections[$index]);
 		}
 	}
+	function table($name){
+		return new table($this,$name);
+	}
 }
