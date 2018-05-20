@@ -6,7 +6,8 @@ description is under construction
 ## Examples
 ```php
 use \pgood\mysql\connection
-	,\pgood\mysql\table;
+	,\pgood\mysql\table
+	,\pgood\mysql\field;
 
 /*
  * Connection
@@ -90,4 +91,65 @@ if($rowset = $select->query()){
 	//get particular row as array
 	$arRow = $rowset->toArray(0);
 }
+```
+
+## Join example
+```php
+use \pgood\mysql\connection
+	,\pgood\mysql\field;
+
+$c = new connection('localhost','username','password','database');
+
+/*
+ * First table definition
+ */
+$t1 = $c->table('users');
+$t1->alias('t1');
+$t1->field('id',field::INT)->autoIncrement(true)->notNull(true);
+$t1->field('name',field::STRING);
+$t1->field('email',field::STRING);
+$t1->field('created',field::DATE);
+if(!$t1->exists())
+	$t1->create('id');
+
+/*
+ * Second table definition
+ */
+$t2 = $c->table('linked');
+$t2->field('user_id',field::INT)->notNull(true);
+$t2->field('some_data',field::STRING);
+if(!$t2->exists()){
+	$t2->create();
+	$t2->index('index_1','user_id');
+}
+
+/*
+ * Join object
+ */
+$t2Join = $tLinked->join('t2')
+	->type('left')
+	->on('link_id',$t1->field('id'));
+
+/*
+ * Select
+ */
+$s = $t->select()
+	->join($t2Join)
+	->fields('id','name','email',$t2Join->field('some_data'))
+	->groupBy('id')
+	->orderBy('name');
+
+/*
+ * Execute query and show results
+ */
+if($rowset = $s->query()){
+	foreach($rowset as $fieldset){
+		echo '<p>'
+			,$fieldset->id,'<br>'
+			,$fieldset->name,'<br>'
+			,$fieldset->email,'<br>'
+			,'</p>';
+	}
+}
+
 ```
