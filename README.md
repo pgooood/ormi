@@ -126,7 +126,7 @@ if(!$t2->exists()){
 /*
  * Join object
  */
-$t2Join = $tLinked->join('t2')
+$t2Join = $t2->join('t2')
 	->type('left')
 	->on('link_id',$t1->field('id'));
 
