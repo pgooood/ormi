@@ -108,7 +108,7 @@ class select{
 	}
 	function query($debug = null){
 		if($debug)
-			vdump($this->__toString());
+			throw new Exception($this->__toString());
 		$rs = new rowset($this);
 		if($this->dateFormat())
 			$rs->dateFormat($this->dateFormat());

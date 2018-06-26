@@ -126,6 +126,9 @@ class table{
 		}
 		return $this->query('delete from `'.$this->name().'`'.($where ? ' where '.$where : null));
 	}
+	function clear(){
+		return $this->query('truncate table `'.$this->name().'`');
+	}
 	
 	
 	function where(){

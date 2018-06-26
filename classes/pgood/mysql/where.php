@@ -25,8 +25,9 @@ class where{
 		return $this->condition('or',$arArgs);
 	}
 	function where(){
-		$w = new where(func_get_args());
+		$w = new where();
 		$w->table($this->table());
+		$w->_and(func_get_args());
 		return $w;
 	}
 	protected function toField($v){
