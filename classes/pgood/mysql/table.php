@@ -129,11 +129,10 @@ class table{
 	function clear(){
 		return $this->query('truncate table `'.$this->name().'`');
 	}
-	
-	
 	function where(){
-		$where = new where(func_get_args());
+		$where = new where();
 		$where->table($this);
+		$where->_and(func_get_args());
 		return $where; 
 	}
 	function select(){

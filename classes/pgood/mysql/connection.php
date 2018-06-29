@@ -38,6 +38,11 @@ class connection{
 	function db($value = self::UNDEFINED){
 		return $this->value('db',$value);
 	}
+	function charset($v = self::UNDEFINED){
+		if($v === self::UNDEFINED)
+			return $this->mysql()->character_set_name();
+		return $this->mysql()->set_charset($v);
+	}
 	function mysql(){
 		$index = $this->cacheIndex();
 		if(empty(self::$arConnections[$index])){
